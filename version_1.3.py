@@ -45,14 +45,16 @@ def leagueGameEnded():
     db.commit()
 
 def leagueCheck():
-    while True:
-      if "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
-          leagueNewgame()
-          while "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
-              leagueStillIngame()
-              if "League of Legends.exe" in (p.name() for p in psutil.process_iter()) != True:
-                  leagueGameEnded()
-                  return
+    if "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
+        leagueNewgame()
+        print('New Game!')
+        endgameLoop = 1
+        while endgameLoop:
+            if "League of Legends.exe" in (p.name() for p in psutil.process_iter()) != True:
+                leagueGameEnded()
+                print('Game Ended!')
+                endgameLoop = 0
+                    
 
     # if "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
     #     ingame = 1
