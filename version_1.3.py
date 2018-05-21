@@ -16,7 +16,7 @@ def currentTime():
 
 def initDb():
     c.execute('CREATE TABLE IF NOT EXISTS systemBoot(datestamp TEXT, msg TEXT)')
-    c.execute('CREATE TABLE IF NOT EXISTS leagueTime(datestamp TEXT, msg TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS leagueTime(datestamp TEXT, msg TEXT, duration TEXT)')
     db.commit()
 
 def systemBoot():
@@ -44,16 +44,37 @@ def leagueGameEnded():
     (currentTime(), "Game Ended!"))
     db.commit()
 
+
+
 def leagueCheck():
-    if "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
+    while "notepad.exe" in (p.name() for p in psutil.process_iter()):
+        tick = 1
+        time.sleep(1)
+        c.execute('UPDATE leagueTime SET duration = (?) WHERE duration',
+        (tick))
+        tick += 1
+        print('YEET')
+    else:
+        print('YOTE')
+
+
+
+
+def leagueCheckCameron():
+    if "notepad.exe" in (p.name() for p in psutil.process_iter()):
         leagueNewgame()
-        print('New Game!')
-        endgameLoop = 1
-        while endgameLoop:
-            if "League of Legends.exe" in (p.name() for p in psutil.process_iter()) != True:
-                leagueGameEnded()
-                print('Game Ended!')
-                endgameLoop = 0
+        print('Notepad Open')
+    else:
+        print('YOTE')
+
+    # if "notepad.exe" in (p.name() for p in psutil.process_iter()):
+    #     leagueNewgame()
+    #     print('New Game!')
+    #     while True:
+    #         if "notepad.exe" in (p.name() for p in psutil.process_iter()) != True:
+    #             leagueGameEnded()
+    #             print('Game Ended!')
+    #             return
                     
 
     # if "League of Legends.exe" in (p.name() for p in psutil.process_iter()):
